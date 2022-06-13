@@ -1,5 +1,6 @@
 const { Client } = require('pg');
 
+const { getUsers } = require('./api');
 const config = {
   user: 'postgres',
   password: 'postgres',
@@ -31,7 +32,7 @@ function mapUsers (usersArray) {
   //  ('Node', 'Nodenko', 'fromNode@mail.com', true)[]
   const insertValuesStringsArr = usersArray.map(
     user =>
-      `('${user.firstName}', '${user.lastName}', '${user.email}', ${user.isMale}, '${user.birthday}')`
+      `('${user.name.first}', '${user.name.last}', '${user.email}', ${user.gender === 'male'}, '${user.dob.date}')`
   );
 
   const insertString = insertValuesStringsArr.join(',');
@@ -39,6 +40,8 @@ function mapUsers (usersArray) {
 }
 
 async function start () {
+  const usersToInsert = await getUsers();
+
   await client.connect();
 
   const res = await client.query(`INSERT INTO users (first_name, last_name, email, is_male, birthday)
