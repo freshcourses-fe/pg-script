@@ -1,6 +1,23 @@
 const axios = require('axios').default;
+const queryString = require('query-string');
 
-module.exports.getUsers = async () => {
-  const {data: {results}} = await axios.get('https://randomuser.me/api?seed=test&results=1000&page=1');
+const {
+  baseUrl,
+  get: { users: usersGetConfig },
+} = require('../configs/api.json');
+
+module.exports.getUsers = async options => {
+  const finalOptions = {
+    ...usersGetConfig,
+    ...options,
+  };
+
+  const queryParams = queryString.stringify(finalOptions, {
+    arrayFormat: 'comma',
+  });
+
+  const {
+    data: { results },
+  } = await axios.get(`${baseUrl}?${queryParams}`);
   return results;
-}
+};
