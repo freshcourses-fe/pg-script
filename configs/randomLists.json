@@ -1,0 +1,23 @@
+{
+  "phones": [
+    "1234214",
+    "7520471048",
+    "123421411",
+    "4354352343",
+    "7665768",
+    "980972366",
+    "23434355",
+    "5423423433"
+  ],
+  "addresses": [
+    "Zaporizhzhia",
+    "Kyiv",
+    "Lviv",
+    "Kharkiv",
+    "Odessa",
+    "Mykolaiv",
+    "Chernivtci"
+  ],
+  "categories": ["Home", "Car", "Phone", "Hardware", "Food"],
+  "productNames": ["Epic", "ABC", "TEST NAME", "Neo product", "Mango", "Yehee"]
+}

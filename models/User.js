@@ -5,11 +5,11 @@ class User {
   static _tableName = 'users';
 
   static async bulkCreate (users) {
-    console.log(users);
-    const res = await this._client
+
+    const {rows} = await this._client
       .query(`INSERT INTO users (first_name, last_name, email, is_male, birthday)
-    VALUES ${mapUsers(users)}`);
-    return res;
+    VALUES ${mapUsers(users)} RETURNING *`);
+    return rows;
   }
 
   static async findAll () {
