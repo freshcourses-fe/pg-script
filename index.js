@@ -8,13 +8,20 @@ const {
   phones: phoneList,
   addresses: addressList,
 } = require('./configs/randomLists.json');
+const {
+  sellerChance,
+  productsAmount,
+  orderChance,
+  maxOrders,
+  maxProductAmountInOrder,
+} = require('./configs/generationParams.json');
 
 async function start () {
   // Качаем юзеров с инета
   const usersToInsert = await getUsers();
 
   await client.connect();
-  
+
   // запускаем скрипт из папки sql для очистки БД
   const resetDbQueryString = await fs.readFile(
     path.join(__dirname, '/sql/reset-db-query.sql'),
@@ -25,12 +32,12 @@ async function start () {
   // создаем юзеров в БД и получаем их в массиве (благодаря RETUNING * в модели)
   const users = await User.bulkCreate(usersToInsert);
 
-  // Создаем массив для создания строки для INSERT INTO sellers 
+  // Создаем массив для создания строки для INSERT INTO sellers
   // (саму строку сделает утилитка вызванная в модели)
   // у каждого пользоватля есть 33% шанс стать продавцом
   const sellersToBeCreated = users
     .map(user =>
-      shouldBeCreated(33)
+      shouldBeCreated(sellerChance)
         ? {
             userId: user.id,
             address: addressList[_.random(0, addressList.length - 1)],
@@ -43,14 +50,14 @@ async function start () {
   // создаем продавцов в БД и получаем их в массиве (благодаря RETUNING * в модели)
   const sellers = await Seller.bulkCreate(sellersToBeCreated);
 
-  // они вставились с айдишниками по порядку 
+  // они вставились с айдишниками по порядку
   // поэтому из возвращенного массива берем первый и последний айдишник
   // для создания продуктов
   const minSellerId = sellers[0].id;
   const maxSellerId = sellers[sellers.length - 1].id;
 
   // генерируем 1000 продуктов без айдишников продавцов
-  const productsToBeCreatedWithoutSellers = createManyProducts(1000);
+  const productsToBeCreatedWithoutSellers = createManyProducts(productsAmount);
 
   // привиниваем айдишники продавцов продуктам
   const productsToBeCreated = productsToBeCreatedWithoutSellers.map(product => {
@@ -66,8 +73,8 @@ async function start () {
   // у пользователя 25% шанс создать от 1 до 5 заказов
   const ordersToBeCreated = users
     .map(u => {
-      return shouldBeCreated(25)
-        ? new Array(_.random(1, 5))
+      return shouldBeCreated(orderChance)
+        ? new Array(_.random(1, maxOrders))
             .fill(null)
             .map(() => `(${u.id})`)
             .join(',')
@@ -92,7 +99,8 @@ async function start () {
     // возвращаем строку для инсерта из которой сначала вынимаем потенциальные повторения
     // с помощью Set ( в одном заказе не может быть повторяющихся продуктов для этого есть количество)
     return [...new Set(productsThatWillBeOrdered)].map(
-      product => `(${order.id}, ${product.id}, ${_.random(1, 100)})`
+      product =>
+        `(${order.id}, ${product.id}, ${_.random(1, maxProductAmountInOrder)})`
     );
   });
 

@@ -1,5 +1,9 @@
-const { categories, productNames } = require('../configs/randomLists.json');
 const _ = require('lodash');
+const { categories, productNames } = require('../configs/randomLists.json');
+const {
+  productGen: { maxPrice, maxQuantity, minPrice, minQuantity },
+} = require('../configs/generationParams.json');
+
 function mapUsers (usersArray) {
   //  ('Node', 'Nodenko', 'fromNode@mail.com', true)[]
   const insertValuesStringsArr = usersArray.map(
@@ -32,13 +36,14 @@ function createProduct (key) {
   const baseProductName = productNames[_.random(0, productNames.length - 1)];
   return {
     name: `${baseProductName}-${_.random(0, 9000)}__${key}`, // phone-5000__10
-    price: _.random(1, 1_000_000, false),
-    quantity: _.random(100, 10_000, false),
+    price: _.random(minPrice, maxPrice, false),
+    quantity: _.random(minQuantity, maxQuantity, false),
     category: categories[_.random(0, categories.length - 1)],
   };
 }
 
-const createManyProducts = (amount = 100) => new Array(amount).fill(null).map((_, i) => createProduct(i));
+const createManyProducts = (amount = 100) =>
+  new Array(amount).fill(null).map((_, i) => createProduct(i));
 
 const shouldBeCreated = (chance = 100) => _.random(1, 100) < chance;
 
