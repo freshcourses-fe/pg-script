@@ -5,7 +5,6 @@ const { client, User, Seller, Product } = require('./models');
 const { getUsers } = require('./api');
 const { shouldBeCreated, createManyProducts } = require('./utils');
 const {
-  phones: phoneList,
   addresses: addressList,
 } = require('./configs/randomLists.json');
 const {
@@ -41,7 +40,7 @@ async function start () {
         ? {
             userId: user.id,
             address: addressList[_.random(0, addressList.length - 1)],
-            phone: phoneList[_.random(0, phoneList.length - 1)],
+            phone: `+38-0${_.random(10,99)}-${_.random(100,999)}-${_.random(10,99)}-${_.random(10,99)}`,
           }
         : undefined
     )
