@@ -2,6 +2,7 @@ const _ = require('lodash');
 const { categories, productNames } = require('../configs/randomLists.json');
 const {
   productGen: { maxPrice, maxQuantity, minPrice, minQuantity },
+  users: {minHeight, maxHeight}
 } = require('../configs/generationParams.json');
 
 function mapUsers (usersArray) {
@@ -10,7 +11,7 @@ function mapUsers (usersArray) {
     user =>
       `('${user.name.first}', '${user.name.last}', '${
         user.email
-      }', ${user.gender === 'male'}, '${user.dob.date}')`
+      }', ${user.gender === 'male'}, '${user.dob.date}', ${_.random(minHeight, maxHeight, true)})`
   );
 
   const insertString = insertValuesStringsArr.join(',');

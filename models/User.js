@@ -7,7 +7,7 @@ class User {
   static async bulkCreate (users) {
 
     const {rows} = await this._client
-      .query(`INSERT INTO users (first_name, last_name, email, is_male, birthday)
+      .query(`INSERT INTO users (first_name, last_name, email, is_male, birthday, height)
     VALUES ${mapUsers(users)} RETURNING *`);
     return rows;
   }

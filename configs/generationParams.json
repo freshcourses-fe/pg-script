@@ -9,5 +9,9 @@
     "maxPrice": 1000000,
     "minQuantity": 1000,
     "maxQuantity": 100000
+  },
+  "users": {
+    "minHeight": 1.2,
+    "maxHeight": 2.4
   }
 }
