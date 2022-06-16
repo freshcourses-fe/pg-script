@@ -24,5 +24,6 @@
     "Chernivtci"
   ],
   "categories": ["Home", "Car", "Phone", "Hardware", "Food"],
-  "productNames": ["Epic", "ABC", "TEST NAME", "Neo product", "Mango", "Yehee"]
+  "productNames": ["Epic", "ABC", "TEST NAME", "Neo product", "Mango", "Yehee"],
+  "brands": ["Google", "Apple", "Allo", "Ikea", "Some Brand Name 1", "NeoTech", "OneTwoThree"]
 }

@@ -5,6 +5,7 @@ const {
   users: { minHeight, maxHeight },
   categories,
   productNames,
+  brands,
 } = require('../configs/generationParams.json');
 
 function mapUsers (usersArray) {
@@ -13,7 +14,11 @@ function mapUsers (usersArray) {
     user =>
       `('${user.name.first}', '${user.name.last}', '${
         user.email
-      }', ${user.gender === 'male'}, '${user.dob.date}', ${_.random(minHeight, maxHeight, true)})`
+      }', ${user.gender === 'male'}, '${user.dob.date}', ${_.random(
+        minHeight,
+        maxHeight,
+        true
+      )})`
   );
 
   const insertString = insertValuesStringsArr.join(',');
@@ -29,8 +34,8 @@ function mapSellers (sellers) {
 function mapProducts (products) {
   return products
     .map(
-      ({ sellerId, name, price, quantity = 1, category }) =>
-        `(${sellerId},'${name}', ${price}, ${quantity}, '${category}')`
+      ({ sellerId, name, price, quantity = 1, category, brand }) =>
+        `(${sellerId},'${name}', ${price}, ${quantity}, '${category}', '${brand}')`
     )
     .join(',');
 }
@@ -42,6 +47,7 @@ function createProduct (key) {
     price: _.random(minPrice, maxPrice, false),
     quantity: _.random(minQuantity, maxQuantity, false),
     category: categories[_.random(0, categories.length - 1)],
+    brand: brands[_.random(0, brands.length - 1)],
   };
 }
 

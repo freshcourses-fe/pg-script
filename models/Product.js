@@ -10,7 +10,8 @@ class Product {
       "name",
       "price", 
       "quantity",
-      "category"
+      "category",
+      "brand"
     ) VALUES ${mapProducts(products)}
     RETURNING *;`);
     return rows;

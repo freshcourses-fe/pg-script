@@ -33,6 +33,7 @@ CREATE TABLE products(
   price numeric(11, 2) NOT NULL CHECK(price > 0),
   quantity integer NOT NULL CHECK(quantity > 0),
   category varchar(256) NOT NULL CHECK(category != ''),
+  brand varchar(256) NOT NULL CHECK (brand != ''),
   seller_id bigint NOT NULL REFERENCES sellers ON DELETE CASCADE ON UPDATE CASCADE,
   created_at timestamp NOT NULL DEFAULT current_timestamp
 );
