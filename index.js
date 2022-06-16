@@ -10,7 +10,8 @@ const {
   productsAmount,
   orderChance,
   maxOrders,
-  maxProductAmountInOrder,
+  maxProductQuantityInOrder,
+  maxProductsInOrder,
   addresses: addressList,
 } = require('./configs/generationParams.json');
 
@@ -90,7 +91,7 @@ async function start () {
   //генерируем строку для инсерта в products_to_orders
   const productsToOrdersString = orders.map(order => {
     // для каждого заказа создаем массив случайной длины с продуктами которые в нем будут
-    const productsThatWillBeOrdered = new Array(_.random(1, products.length))
+    const productsThatWillBeOrdered = new Array(_.random(1, maxProductsInOrder))
       .fill(null)
       .map(() => products[_.random(1, products.length - 1)]);
 
@@ -98,7 +99,7 @@ async function start () {
     // с помощью Set ( в одном заказе не может быть повторяющихся продуктов для этого есть количество)
     return [...new Set(productsThatWillBeOrdered)].map(
       product =>
-        `(${order.id}, ${product.id}, ${_.random(1, maxProductAmountInOrder)})`
+        `(${order.id}, ${product.id}, ${_.random(1, maxProductQuantityInOrder)})`
     );
   });
 
