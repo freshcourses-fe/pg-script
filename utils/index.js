@@ -1,8 +1,10 @@
 const _ = require('lodash');
-const { categories, productNames } = require('../configs/randomLists.json');
+
 const {
   productGen: { maxPrice, maxQuantity, minPrice, minQuantity },
-  users: {minHeight, maxHeight}
+  users: { minHeight, maxHeight },
+  categories,
+  productNames,
 } = require('../configs/generationParams.json');
 
 function mapUsers (usersArray) {

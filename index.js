@@ -4,15 +4,14 @@ const _ = require('lodash');
 const { client, User, Seller, Product } = require('./models');
 const { getUsers } = require('./api');
 const { shouldBeCreated, createManyProducts } = require('./utils');
-const {
-  addresses: addressList,
-} = require('./configs/randomLists.json');
+
 const {
   sellerChance,
   productsAmount,
   orderChance,
   maxOrders,
   maxProductAmountInOrder,
+  addresses: addressList,
 } = require('./configs/generationParams.json');
 
 async function start () {
